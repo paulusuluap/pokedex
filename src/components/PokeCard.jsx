@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { getPokedexNumber } from "../utils"
 
 export function PokeCard(props) {
     const { selectedPokemon } = props
@@ -12,7 +13,7 @@ export function PokeCard(props) {
         // 1. define the cache
         let cache = {}
         if (localStorage.getItem('pokedex')) {
-            cache = JSON.parse(localStorage.getItem('pokemon'))
+            cache = JSON.parse(localStorage.getItem('pokedex'))
         }
 
         // 2. check if the selected pokemon is in the cache, otherwise fetch from the API
@@ -27,15 +28,17 @@ export function PokeCard(props) {
         async function fetchPokemonData() {
             setLoading(true);
             try {
-                const baseUrl = 'https://pokeapi.co/api/v2/';
-                const suffix = 'pokemon/' + selectedPokemon;
-                const finalUrl = baseUrl + suffix;
+                const baseUrl = 'https://pokeapi.co/api/v2/'
+                const suffix = 'pokemon/' + getPokedexNumber(selectedPokemon)
+                const finalUrl = baseUrl + suffix
                 const res = await fetch(finalUrl)
                 const pokemonData = await res.json()
                 setData(pokemonData)
+                
+                console.log(pokemonData)
 
                 cache[selectedPokemon] = pokemonData
-                localStorage.setItem(JSON.stringify(cache))
+                localStorage.setItem('pokedex', JSON.stringify(cache))
             } catch (err) {
                 console.log(err.message)
             } finally {
