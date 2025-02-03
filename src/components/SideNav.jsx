@@ -4,7 +4,7 @@ export default function SideNav() {
     return (
         <nav>
             <div className={"header"}>
-                <h1 className="text-gradient">Poke</h1>
+                <h1 className="text-gradient">Pokédex</h1>
             </div>
             <input />
             {first151Pokemon.map((pokemon, pokemonIndex) => {
